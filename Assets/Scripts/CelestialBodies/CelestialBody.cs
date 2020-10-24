@@ -18,7 +18,7 @@ public class CelestialBody : MonoBehaviour, IInteractable
     public Team Owner { private set; get; }
     public (Team team, float percentage) ConquestPercentage { get; private set; } = (null ,0);
 
-    public bool IsAtPeace { get; private set; }
+    public bool IsAtPeace { get; private set; } = true;
     public List<Team> CurrentTeamsInPlanet { private set; get; } = new List<Team>();
     public Dictionary<Team, List<ITroop>> Troops { private set; get; } = new Dictionary<Team, List<ITroop>>();
 
