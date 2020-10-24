@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(CelestialBody))]
 public class CBSelectedRenderer : MonoBehaviour
 {
     private CelestialBody planet;
