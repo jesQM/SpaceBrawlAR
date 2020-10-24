@@ -51,7 +51,16 @@ public class CelestialBody : MonoBehaviour, IInteractable
         OnDeselected += () => {
             GameManager.CelestialBodiesSelectedByHumanPlayer.Remove(this);
         };
-        
+
+        // Update teams count
+        OnTeamLeave += (team) => {
+            CurrentTeamsInPlanet.Remove(team);
+        };
+
+        OnNewTeamArrival += (team) => {
+            CurrentTeamsInPlanet.Add(team);
+        };
+
         // Update peace variable
         OnTeamLeave += (team) => {
             if (CurrentTeamsInPlanet.Count <= 1) this.IsAtPeace = true;
