@@ -61,32 +61,37 @@ internal class PlanetConquestStrategyIdle : ICelestialBodyConquestStrategy
 
     public ICelestialBodyConquestStrategy PlanetStatusChange()
     {
-        ICelestialBodyConquestStrategy result = this;
         Team currentTeamInPlanet = null;
 
         if (Planet.IsAtPeace)
         { // Peace  => is the planet of the team in the planet?
 
             if (Planet.CurrentTeamsInPlanet.Count > 0) currentTeamInPlanet = Planet.CurrentTeamsInPlanet[0];
-            if (currentTeamInPlanet == null) return result; // No team in planet => nothing to do
+            if (currentTeamInPlanet == null) return this; // No team in planet => nothing to do
 
             if (Planet.Owner != null && Planet.Owner.Equals(currentTeamInPlanet) )
             {
                 // Team in planet is owner =>
                 //              if % is not 100 => Conquer
                 //              if % is 100 => Idle
+                if (Planet.ConquestPercentage.percentage == 100f)
+                    return this;
                 return new PlanetConquestStrategyConquer(Planet);
 
             } else {
                 // Team in planet is not owner =>
-                //              reduce conquer % => Unconquer
+                //          Is Progress so far ous? =>
+                //              Yes => Conquer
+                //              No => reduce conquer % => Unconquer
+                if (currentTeamInPlanet.Equals(Planet.ConquestPercentage.team))
+                    return new PlanetConquestStrategyConquer(Planet);
                 return new PlanetConquestStrategyUnconquer(Planet);
 
             }
         }
         // War => keep idle, cannot conquer / deconquer
 
-        return result;
+        return this;
     }
 
     public void Update()
@@ -109,7 +114,7 @@ internal abstract class AbstractPlanetConquestStrategy : ICelestialBodyConquestS
 
     public abstract ICelestialBodyConquestStrategy PlanetStatusChange();
 
-    public void Update()
+    public virtual void Update()
     {
         float incrementInConquest = IncrementInConquestOperation();
         Planet.IncrementConquest(Planet.ConquestPercentage.team, incrementInConquest);
@@ -149,7 +154,7 @@ internal class PlanetConquestStrategyConquer : AbstractPlanetConquestStrategy
         //          Go idle
         return new PlanetConquestStrategyIdle(Planet);
     }
-
+    
     public override ICelestialBodyConquestStrategy PlanetStatusChange()
     {
         if (!Planet.IsAtPeace)
@@ -157,6 +162,12 @@ internal class PlanetConquestStrategyConquer : AbstractPlanetConquestStrategy
             return new PlanetConquestStrategyIdle(Planet);
         }
         return this;
+    }
+
+    public override void Update()
+    {
+        float incrementInConquest = IncrementInConquestOperation();
+        Planet.IncrementConquest(Planet.CurrentTeamsInPlanet[0], incrementInConquest);
     }
 }
 

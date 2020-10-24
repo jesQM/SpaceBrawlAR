@@ -35,11 +35,13 @@ public class CelestialBody : MonoBehaviour, IInteractable
         OnPlanetUnconquest += () => {
             this.Owner = null;
             this.ConquestPercentage = (null, 0);
+            Debug.Log("Planet unconquered");
         };
 
         // Set Planet Conquered
         OnPlanetConquest += (team) => {
             this.Owner = team;
+            Debug.Log("Planet conquered");
         };
 
         // Planet got selected => add to selected list
@@ -120,6 +122,8 @@ public class CelestialBody : MonoBehaviour, IInteractable
         float prcnt = ConquestPercentage.percentage + amount;
         prcnt = Mathf.Clamp(prcnt, 0f, 100f);
         ConquestPercentage = (team, prcnt);
+        
+        Debug.Log("Conquest status: " + ConquestPercentage);
 
         // Call events
         if (ConquestPercentage.percentage == 0f) OnPlanetUnconquest?.Invoke();
