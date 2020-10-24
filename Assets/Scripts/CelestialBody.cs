@@ -3,13 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CelestialBody : MonoBehaviour
+public class CelestialBody : MonoBehaviour, IInteractable
 {
     // Events
     public Action<Team> OnNewTeamArrival;
     public Action<Team> OnTeamLeave;
     public Action<Team> OnPlanetConquest;
     public Action OnPlanetUnconquest;
+    
+    public Action OnSelected;
+    public Action OnDeselected;
 
     // Attributes
     public Team Owner { private set; get; }
@@ -18,6 +21,8 @@ public class CelestialBody : MonoBehaviour
     public List<Team> CurrentTeamsInPlanet { private set; get; } = new List<Team>();
     public Dictionary<Team, List<ITroop>> Troops { private set; get; } = new Dictionary<Team, List<ITroop>>();
 
+    // Properties
+    private bool IsSelectedByPlayer { set; get; }
 
     //------------------------
     //      Methods
@@ -35,7 +40,51 @@ public class CelestialBody : MonoBehaviour
         OnPlanetConquest += (team) => {
             this.Owner = team;
         };
+
+        OnSelected += () => {
+            GameManager.CelestialBodiesSelectedByHumanPlayer.Add(this);
+        };
+
+        OnSelected += () => {
+            GameManager.CelestialBodiesSelectedByHumanPlayer.Remove(this);
+        };
     }
+
+    #region IInteractable
+
+    public void OnTouchBegin()
+    {
+        SetSelected(true);
+    }
+
+    public void OnTouchEnd()
+    {
+        GetTargeted();
+    }
+
+    public void OnTouchMoved()
+    {
+        SetSelected(true);
+    }
+
+    public void SetSelected(bool newState)
+    {
+        if (newState == IsSelectedByPlayer) return;
+
+        IsSelectedByPlayer = newState;
+
+        if (IsSelectedByPlayer)
+        { OnSelected?.Invoke(); }
+        else
+        { OnDeselected?.Invoke(); }
+    }
+
+    public void GetTargeted()
+    {
+        GameManager.SendTroopsToTarget(this);
+    }
+
+    #endregion
 
     #region getters & setters
 
@@ -106,6 +155,5 @@ public class CelestialBody : MonoBehaviour
 
         if (result.Count.Equals(0)) this.TeamLeftCelestialBody(team);
     }
-
     #endregion
 }
