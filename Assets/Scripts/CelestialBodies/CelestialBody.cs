@@ -18,6 +18,7 @@ public class CelestialBody : MonoBehaviour, IInteractable
     public Team Owner { private set; get; }
     public (Team team, float percentage) ConquestPercentage { get; private set; } = (null ,0);
 
+    public bool IsAtPeace { get; private set; }
     public List<Team> CurrentTeamsInPlanet { private set; get; } = new List<Team>();
     public Dictionary<Team, List<ITroop>> Troops { private set; get; } = new Dictionary<Team, List<ITroop>>();
 
@@ -28,7 +29,7 @@ public class CelestialBody : MonoBehaviour, IInteractable
     //      Methods
     //------------------------
 
-    void Start()
+    void Awake()
     {
         // Set Planet Unconquered
         OnPlanetUnconquest += () => {
@@ -41,12 +42,23 @@ public class CelestialBody : MonoBehaviour, IInteractable
             this.Owner = team;
         };
 
+        // Planet got selected => add to selected list
         OnSelected += () => {
             GameManager.CelestialBodiesSelectedByHumanPlayer.Add(this);
         };
 
+        // Planet got deselected => remove from selected list
         OnDeselected += () => {
             GameManager.CelestialBodiesSelectedByHumanPlayer.Remove(this);
+        };
+        
+        // Update peace variable
+        OnTeamLeave += (team) => {
+            if (CurrentTeamsInPlanet.Count <= 1) this.IsAtPeace = true;
+        };
+
+        OnNewTeamArrival += (team) => {
+            if (CurrentTeamsInPlanet.Count > 1) this.IsAtPeace = false;
         };
     }
 
