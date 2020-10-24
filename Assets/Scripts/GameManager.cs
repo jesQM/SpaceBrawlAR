@@ -25,7 +25,5 @@ public class GameManager
         // Create a new list to loop through it without messing up with indexes
         List<CelestialBody> copy = new List<CelestialBody>(CelestialBodiesSelectedByHumanPlayer);
         copy.ForEach(item => item.SetSelected(false));
-
-        Debug.Log("List should be empty, and it is this: " + CelestialBodiesSelectedByHumanPlayer.ToArray());
     }
 }
