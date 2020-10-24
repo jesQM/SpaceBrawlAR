@@ -20,7 +20,7 @@ public class Team
 
     public override bool Equals(object obj)
     {
-        return obj is Team o && o.Name == this.Name;
+        return obj != null && obj is Team o && o.Name == this.Name;
     }
 
     public override int GetHashCode()
