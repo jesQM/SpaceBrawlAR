@@ -22,7 +22,7 @@ public class CelestialBody : MonoBehaviour, IInteractable
     public Dictionary<Team, List<ITroop>> Troops { private set; get; } = new Dictionary<Team, List<ITroop>>();
 
     // Properties
-    private bool IsSelectedByPlayer { set; get; }
+    private bool IsSelectedByPlayer { set; get; } = false;
 
     //------------------------
     //      Methods
@@ -45,7 +45,7 @@ public class CelestialBody : MonoBehaviour, IInteractable
             GameManager.CelestialBodiesSelectedByHumanPlayer.Add(this);
         };
 
-        OnSelected += () => {
+        OnDeselected += () => {
             GameManager.CelestialBodiesSelectedByHumanPlayer.Remove(this);
         };
     }

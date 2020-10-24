@@ -26,6 +26,6 @@ public class GameManager
         List<CelestialBody> copy = new List<CelestialBody>(CelestialBodiesSelectedByHumanPlayer);
         copy.ForEach(item => item.SetSelected(false));
 
-        Debug.Log("List should be empty, and it is this: " + CelestialBodiesSelectedByHumanPlayer);
+        Debug.Log("List should be empty, and it is this: " + CelestialBodiesSelectedByHumanPlayer.ToArray());
     }
 }

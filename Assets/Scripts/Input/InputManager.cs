@@ -39,6 +39,7 @@ internal class InputStrategyMouse : IInputStrategy
             {
                 GameManager.DeselectAll();
             }
+            return;
         }
 
         if (isMouseDown && Input.GetMouseButton(0))
