@@ -33,15 +33,19 @@ public class CelestialBody : MonoBehaviour, IInteractable
     {
         // Set Planet Unconquered
         OnPlanetUnconquest += () => {
+            if (this.Owner != null) StartCoroutine(BlinkMesh(transform.Find("Mesh").gameObject, Color.gray));
             this.Owner = null;
             this.ConquestPercentage = (null, 0);
-            Debug.Log("Planet unconquered");
         };
 
         // Set Planet Conquered
         OnPlanetConquest += (team) => {
             this.Owner = team;
-            Debug.Log("Planet conquered");
+        };
+        
+        //Planet blink on conquerors colour
+        OnPlanetConquest += (team) => {
+            StartCoroutine(BlinkMesh(transform.Find("Mesh").gameObject, team.Colour));
         };
 
         // Planet got selected => add to selected list
@@ -71,6 +75,22 @@ public class CelestialBody : MonoBehaviour, IInteractable
         OnNewTeamArrival += (team) => {
             if (CurrentTeamsInPlanet.Count > 1) this.IsAtPeace = false;
         };
+    }
+
+    IEnumerator BlinkMesh(GameObject go, Color color)
+    {
+        Renderer rend = go.GetComponent<Renderer>();
+        Color originalColor = rend.material.GetColor("_Color");
+
+        float percentage = 0f;
+        float speed = 1;
+        while (percentage >= 0)
+        {
+            percentage += Time.deltaTime * speed;
+            rend.material.SetColor("_Color", Color.Lerp(originalColor, color, percentage));
+            if (percentage >= 1) speed *= -1;
+            yield return null;
+        }
     }
 
     #region IInteractable
@@ -123,7 +143,7 @@ public class CelestialBody : MonoBehaviour, IInteractable
         prcnt = Mathf.Clamp(prcnt, 0f, 100f);
         ConquestPercentage = (team, prcnt);
         
-        Debug.Log("Conquest status: " + ConquestPercentage);
+        //Debug.Log("Conquest status: " + ConquestPercentage);
 
         // Call events
         if (ConquestPercentage.percentage == 0f) OnPlanetUnconquest?.Invoke();
