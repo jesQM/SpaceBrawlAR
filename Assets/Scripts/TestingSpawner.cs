@@ -6,10 +6,25 @@ public class TestingSpawner : MonoBehaviour
 {
     void Start()
     {
-        StartCoroutine(aa());
+        //StartCoroutine(aa());
+
+        CelestialBody p = FindObjectOfType<CelestialBody>();
+        for (int i = 0; i < 1000; i++)
+        {
+            Unit unit = new Unit(GameManager.HumanPlayer);
+            p.TroopArrival(unit);
+            unit.SetCurrentCelestialBody(p);
+        }
+        Team t2 = new Team("pepa", Color.green);
+        for (int i = 0; i < 1000; i++)
+        {
+            Unit unit = new Unit(t2);
+            p.TroopArrival(unit);
+            unit.SetCurrentCelestialBody(p);
+        }
     }
 
-    private IEnumerator aa()
+    /*private IEnumerator aa()
     {
         Team t1 = new Team("paco", Color.red);
         Team t2 = new Team("pepa", Color.green);
@@ -37,7 +52,8 @@ public class TestingSpawner : MonoBehaviour
             }
 
             p.TroopArrival(unit);
+            unit.SetCurrentCelestialBody(p);
             yield return new WaitForSeconds(2);
         }
-    }
+    }*/
 }

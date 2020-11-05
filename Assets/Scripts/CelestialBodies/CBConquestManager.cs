@@ -161,6 +161,9 @@ internal class PlanetConquestStrategyConquer : AbstractPlanetConquestStrategy
         { // War broke out
             return new PlanetConquestStrategyIdle(Planet);
         }
+
+        if (Planet.CurrentTeamsInPlanet.Count == 0) // Only team in planet left => stop
+            return new PlanetConquestStrategyIdle(Planet);
         return this;
     }
 
@@ -191,6 +194,8 @@ internal class PlanetConquestStrategyUnconquer : AbstractPlanetConquestStrategy
         { // War broke out
             return new PlanetConquestStrategyIdle(Planet);
         }
+        if (Planet.CurrentTeamsInPlanet.Count == 0) // Only team in planet left => stop
+            return new PlanetConquestStrategyIdle(Planet);
         return this;
     }
 
