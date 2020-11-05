@@ -8,6 +8,7 @@ public class CelestialBody : MonoBehaviour, IInteractable
     // Events
     public Action<Team> OnNewTeamArrival;
     public Action<Team> OnTeamLeave;
+    public Action<ITroop> OnTroopArrival;
     public Action<Team> OnPlanetConquest;
     public Action OnPlanetUnconquest;
     
@@ -191,14 +192,17 @@ public class CelestialBody : MonoBehaviour, IInteractable
             OnNewTeamArrival?.Invoke(troop.GetOwner());
         }
         result.Add(troop);
+        OnTroopArrival?.Invoke(troop);
     }
 
-    public void ReduceTroopsOfTeam(Team team, int amount)
+    public void TroopGotKilled(ITroop troop)
     {
-        Troops.TryGetValue(team, out List<ITroop> result);
-        result.RemoveRange(0, amount);
+        Troops.TryGetValue(troop.GetOwner(), out List<ITroop> result);
+        if (!result.Remove(troop)) throw new Exception( String.Format("Unit {0} was not on planet {1}", troop, this) );
 
-        if (result.Count.Equals(0)) this.TeamLeftCelestialBody(team);
+
+        Debug.Log("Killed!!");
+        if (result.Count.Equals(0)) this.TeamLeftCelestialBody(troop.GetOwner());
     }
     #endregion
 }

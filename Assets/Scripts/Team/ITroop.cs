@@ -1,12 +1,13 @@
-﻿public interface ITroop
+public interface ITroop
 {
     Team GetOwner();
     void SetOwner(Team owner);
     float GetHealth();
     float GetMaxHealth();
+    float GetDamage();
 
     void Kill();
-    bool IsOnPlanet();
+    bool IsOnCelestialBody();
     void SetCurrentCelestialBody(CelestialBody planet);
     CelestialBody GetCurrentCelestialBody();
 
@@ -47,7 +48,7 @@ public class Unit : ITroop
         return owner;
     }
 
-    public bool IsOnPlanet()
+    public bool IsOnCelestialBody()
     {
         return isOnPlanet;
     }
@@ -65,7 +66,7 @@ public class Unit : ITroop
 
     public void Kill()
     {
-        //Destroy(this.gameObject);
+        if (currentPlanet != null) currentPlanet.TroopGotKilled(this);
     }
 
     public void MoveToCelestialBody(CelestialBody target)
@@ -77,6 +78,11 @@ public class Unit : ITroop
     public void SetOwner(Team owner)
     {
         this.owner = owner;
+    }
+
+    public float GetDamage()
+    {
+        return 10f;
     }
     #endregion
 }
