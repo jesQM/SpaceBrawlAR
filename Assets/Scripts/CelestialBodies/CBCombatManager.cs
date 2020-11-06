@@ -56,7 +56,6 @@ public class CBCombatManager : MonoBehaviour
         float health = unitReceiving.GetHealth();
 
         while ( damage >= health) {
-            Debug.Log("Damage from " + team + " to " + targetTeam);
             damage -= health;
             unitReceiving.Kill();
 

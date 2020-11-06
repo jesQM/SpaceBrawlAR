@@ -199,9 +199,7 @@ public class CelestialBody : MonoBehaviour, IInteractable
     {
         Troops.TryGetValue(troop.GetOwner(), out List<ITroop> result);
         if (!result.Remove(troop)) throw new Exception( String.Format("Unit {0} was not on planet {1}", troop, this) );
-
-
-        Debug.Log("Killed!!");
+        
         if (result.Count.Equals(0)) this.TeamLeftCelestialBody(troop.GetOwner());
     }
     #endregion
