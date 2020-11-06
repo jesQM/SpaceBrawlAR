@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -158,6 +159,8 @@ internal class PlanetTroopsRendererStrategyWar : AbstractPlanetTroopsRendererStr
 {
     private string holderName = "NumberOfTroopsTeam_War";
     private GameObject[] numberOfTroops;
+    private GameObject[] pieChartsOfTroops;
+    private CoronaCircular[] pieChartsCircles;
     private TextMesh[] text;
 
     private float radiusOfInfoCircle = .5f;
@@ -196,30 +199,43 @@ internal class PlanetTroopsRendererStrategyWar : AbstractPlanetTroopsRendererStr
 
         numberOfTroops = new GameObject[numberOfTeamsInPlanet];
         text = new TextMesh[numberOfTeamsInPlanet];
+        pieChartsOfTroops = new GameObject[numberOfTeamsInPlanet];
+        pieChartsCircles = new CoronaCircular[numberOfTeamsInPlanet];
 
         int i = 0;
         foreach (KeyValuePair<Team, List<ITroop>> pair in planet.Troops)
         {
-            GameObject current = parent.transform.Find(holderName + pair.Key.Name)?.gameObject;
-            if (current != null)
+            GameObject currentTroopText = parent.transform.Find(holderName + pair.Key.Name)?.gameObject;
+            //if (currentTroopText == null)
             {
-                i++;
-                continue;
+                currentTroopText = new GameObject(holderName + pair.Key.Name);
+                currentTroopText.transform.position = parent.transform.position;
+                currentTroopText.transform.localScale = parent.transform.localScale;
+                currentTroopText.transform.parent = parent.transform;
+
+                TextMesh currentText = currentTroopText.AddComponent<TextMesh>();
+                currentText.anchor = TextAnchor.MiddleCenter;
+                currentText.alignment = TextAlignment.Center;
+                currentText.characterSize = 0.25f;
+                currentText.color = pair.Key.Colour;
+
+                numberOfTroops[i] = currentTroopText;
+                text[i] = currentText;
             }
 
-            current = new GameObject(holderName);
-            current.transform.position = parent.transform.position;
-            current.transform.localScale = parent.transform.localScale;
-            current.transform.parent = parent.transform;
+            GameObject currentPieChart = parent.transform.Find(holderName + pair.Key.Name + "_PieChart")?.gameObject;
+            //if (currentPieChart == null)
+            {
+                currentPieChart = new GameObject(holderName + pair.Key.Name + "_PieChart");
+                currentPieChart.transform.position = parent.transform.position;
+                currentPieChart.transform.localScale = parent.transform.localScale;
+                currentPieChart.transform.parent = parent.transform;
 
-            TextMesh currentText = current.AddComponent<TextMesh>();
-            currentText.anchor = TextAnchor.MiddleCenter;
-            currentText.alignment = TextAlignment.Center;
-            currentText.characterSize = 0.25f;
-            currentText.color = pair.Key.Colour;
 
-            numberOfTroops[i] = current;
-            text[i] = currentText;
+                pieChartsCircles[i] = currentPieChart.AddComponent<CoronaCircular>();
+                pieChartsCircles[i].SetColour(pair.Key.Colour);
+                pieChartsOfTroops[i] = currentPieChart;
+            }
             i++;
         }
 
@@ -228,12 +244,24 @@ internal class PlanetTroopsRendererStrategyWar : AbstractPlanetTroopsRendererStr
 
     private void DestroyChildren()
     {
-        if (numberOfTroops == null) return;
-        foreach (GameObject item in numberOfTroops)
+        if (numberOfTroops != null)
         {
-            if (item != null)
+            foreach (GameObject item in numberOfTroops)
             {
-                UnityEngine.Object.Destroy(item);
+                if (item != null)
+                {
+                    UnityEngine.Object.Destroy(item);
+                }
+            }
+        }
+        if (pieChartsOfTroops != null)
+        {
+            foreach (GameObject item in pieChartsOfTroops)
+            {
+                if (item != null)
+                {
+                    UnityEngine.Object.Destroy(item);
+                }
             }
         }
     }
@@ -252,7 +280,21 @@ internal class PlanetTroopsRendererStrategyWar : AbstractPlanetTroopsRendererStr
 
     private void RenderPieChart()
     {
+        int numberOfTeamsInPlanet = planet.CurrentTeamsInPlanet.Count;
+        float angleOffsetAcumm = 0;
+        int totalTroopCount = 0;
+        foreach (var list in planet.Troops.Values) totalTroopCount += list.Count;
 
+        for (int i = 0; i < numberOfTeamsInPlanet; i++)
+        {
+            float percentage = planet.Troops.Values.ToArray()[i].Count / (float)totalTroopCount;
+            float angle = percentage * 360;
+
+            pieChartsCircles[i].SetFillInPercentage01(percentage);
+            pieChartsOfTroops[i].transform.localRotation = Quaternion.Euler(0,0,-angleOffsetAcumm);
+            
+            angleOffsetAcumm += angle;
+        }
     }
 
     private void RenderTroopsPerTeam()
