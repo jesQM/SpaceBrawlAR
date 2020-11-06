@@ -49,7 +49,7 @@ public class CBCombatManager : MonoBehaviour
     {
         List<Team> possibleTargets = new List<Team>(Planet.CurrentTeamsInPlanet);
         possibleTargets.Remove(team);
-        Team targetTeam = possibleTargets[UnityEngine.Random.Range(0, possibleTargets.Count - 1)];
+        Team targetTeam = possibleTargets[UnityEngine.Random.Range(0, possibleTargets.Count)];
 
         List<ITroop> units = Planet.Troops[targetTeam];
         ITroop unitReceiving = units[0];
