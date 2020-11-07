@@ -291,9 +291,9 @@ internal class PlanetTroopsRendererStrategyWar : AbstractPlanetTroopsRendererStr
             float angle = percentage * 360;
 
             pieChartsCircles[i].SetFillInPercentage01(percentage);
-            pieChartsOfTroops[i].transform.localRotation = Quaternion.Euler(0,0,-angleOffsetAcumm);
+            pieChartsOfTroops[i].transform.localRotation = Quaternion.Euler(0,0,angleOffsetAcumm);
             
-            angleOffsetAcumm += angle;
+            angleOffsetAcumm -= angle;
         }
     }
 

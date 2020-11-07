@@ -30,6 +30,14 @@ public class TestingSpawner : MonoBehaviour
             p.TroopArrival(unit);
             unit.SetCurrentCelestialBody(p);
         }
+
+        Team t4 = new Team("aaaa", Color.yellow);
+        for (int i = 0; i < 1000; i++)
+        {
+            Unit unit = new Unit(t4);
+            p.TroopArrival(unit);
+            unit.SetCurrentCelestialBody(p);
+        }
     }
 
     /*private IEnumerator aa()
