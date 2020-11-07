@@ -8,6 +8,7 @@ public class TestingSpawner : MonoBehaviour
     {
         //StartCoroutine(aa());
 
+        /*
         CelestialBody p = FindObjectOfType<CelestialBody>();
         for (int i = 0; i < 1000; i++)
         {
@@ -38,6 +39,7 @@ public class TestingSpawner : MonoBehaviour
             p.TroopArrival(unit);
             unit.SetCurrentCelestialBody(p);
         }
+        */
     }
 
     /*private IEnumerator aa()
