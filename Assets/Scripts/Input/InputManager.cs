@@ -4,7 +4,13 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
-    private IInputStrategy inputStrategy = new InputStrategyMouse();
+    public LayerMask layerToRaycastTo;
+    private IInputStrategy inputStrategy;
+
+    void Start()
+    {
+        inputStrategy = new InputStrategyMouse(layerToRaycastTo);
+    }
 
     void Update()
     {
@@ -22,15 +28,22 @@ internal interface IInputStrategy
 internal class InputStrategyMouse : IInputStrategy
 {
     private bool isMouseDown = false;
+    private LayerMask layerToRaycastTo;
+
+    public InputStrategyMouse(LayerMask layerToRaycastTo)
+    {
+        this.layerToRaycastTo = layerToRaycastTo;
+    }
 
     public void CheckInput()
     {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        bool rayHit = Physics.Raycast(ray, out hit, Mathf.Infinity, layerToRaycastTo);
         if (Input.GetMouseButtonDown(0))
         {
             isMouseDown = true;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit))
+            if (rayHit)
             {
                 IInteractable interactable = hit.collider.gameObject.GetComponent<IInteractable>();
                 interactable?.OnTouchBegin();
@@ -44,9 +57,7 @@ internal class InputStrategyMouse : IInputStrategy
 
         if (isMouseDown && Input.GetMouseButton(0))
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit))
+            if (rayHit)
             {
                 IInteractable interactable = hit.collider.gameObject.GetComponent<IInteractable>();
                 interactable?.OnTouchMoved();
@@ -56,9 +67,7 @@ internal class InputStrategyMouse : IInputStrategy
         if (Input.GetMouseButtonUp(0))
         {
             isMouseDown = false;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit))
+            if (rayHit)
             {
                 IInteractable interactable = hit.collider.gameObject.GetComponent<IInteractable>();
                 interactable?.OnTouchEnd();
@@ -73,6 +82,13 @@ internal class InputStrategyMouse : IInputStrategy
 
 internal class InputStrategyTouch : IInputStrategy
 {
+    private LayerMask layerToRaycastTo;
+
+    public InputStrategyTouch(LayerMask layerToRaycastTo)
+    {
+        this.layerToRaycastTo = layerToRaycastTo;
+    }
+
     public void CheckInput()
     {
         if (Input.touchCount == 0) return;
