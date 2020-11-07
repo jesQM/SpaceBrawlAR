@@ -157,6 +157,8 @@ public class CelestialBody : MonoBehaviour, IInteractable
 
     public void SendTroopsToTarget(Team team, CelestialBody target, float percent01)
     {
+        if (target.Equals(this)) return; // Dont send them to myself
+
         List<ITroop> myTroops = GetTroopsOfTeam(team);
         if (myTroops == null) return; // Team has no troops on this planet
 
