@@ -10,7 +10,10 @@ public class Unit : MonoBehaviour, ITroop
     private float health;
 
     private bool isOnPlanet;
+
+    private bool isOnRotation;
     private float rotationOffset = 0;
+    private float timeStartRotation = 0;
     private CelestialBody currentPlanet;
     private CelestialBody targetPlanet;
 
@@ -31,11 +34,28 @@ public class Unit : MonoBehaviour, ITroop
     {
         if (isOnPlanet)
         {
-            Vector3 scale = currentPlanet.transform.localScale;
-            float time = Time.time * rotationSpeed;
-            Vector3 position = new Vector3(Mathf.Sin(time + rotationOffset) * scale.x, 0, Mathf.Cos(time + rotationOffset) * scale.z) * rotationScale;
-            position += currentPlanet.transform.position;
-            transform.position = position;
+            if (isOnRotation)
+            {
+                Vector3 scale = currentPlanet.transform.localScale;
+                float time = (Time.time - timeStartRotation) * rotationSpeed;
+                Vector3 position = new Vector3(Mathf.Sin(time + rotationOffset) * scale.x, 0, Mathf.Cos(time + rotationOffset) * scale.z) * rotationScale;
+                position += currentPlanet.transform.position;
+                transform.position = position;
+            } else
+            {
+                Vector3 scale = currentPlanet.transform.localScale;
+                Vector3 targetPosition = new Vector3(Mathf.Sin(rotationOffset) * scale.x, 0, Mathf.Cos(rotationOffset) * scale.z) * rotationScale;
+                targetPosition += currentPlanet.transform.position;
+                Vector3 direction = (targetPosition - transform.position).normalized;
+
+                this.transform.position += direction * movementSpeed * Time.deltaTime;
+                if ( (targetPosition - transform.position).sqrMagnitude < 0.01 )
+                {
+                    isOnRotation = true;
+                    timeStartRotation = Time.time;
+                }
+
+            }
         }
         else
         {
@@ -101,6 +121,7 @@ public class Unit : MonoBehaviour, ITroop
     {
         targetPlanet = target;
         isOnPlanet = false;
+        isOnRotation = false;
     }
 
     public void SetOwner(Team owner)
