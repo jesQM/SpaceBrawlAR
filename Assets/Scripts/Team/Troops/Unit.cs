@@ -10,20 +10,21 @@ public class Unit : MonoBehaviour, ITroop
     private float health;
 
     private bool isOnPlanet;
+    private float rotationOffset = 0;
     private CelestialBody currentPlanet;
     private CelestialBody targetPlanet;
 
     private float rotationScale = 1f;
     private float rotationSpeed = 0.5f;
-    private float movementSpeed = 1f;
+    private float movementSpeed = 1.5f;
     
     void Start()
     {
         health = this.maxHealth;
-        owner = GameManager.HumanPlayer;
+        /*owner = GameManager.HumanPlayer;
 
         CelestialBody p = FindObjectOfType<CelestialBody>();
-        MoveToCelestialBody(p);
+        MoveToCelestialBody(p);*/
     }
 
     void Update()
@@ -32,7 +33,7 @@ public class Unit : MonoBehaviour, ITroop
         {
             Vector3 scale = currentPlanet.transform.localScale;
             float time = Time.time * rotationSpeed;
-            Vector3 position = new Vector3( Mathf.Sin(time) * scale.x, 0, Mathf.Cos(time) * scale.z) * rotationScale;
+            Vector3 position = new Vector3(Mathf.Sin(time + rotationOffset) * scale.x, 0, Mathf.Cos(time + rotationOffset) * scale.z) * rotationScale;
             position += currentPlanet.transform.position;
             transform.position = position;
         }
@@ -53,6 +54,7 @@ public class Unit : MonoBehaviour, ITroop
         if (cb != null && cb.Equals(targetPlanet)) {
             cb.TroopArrival(this);
             SetCurrentCelestialBody(cb);
+            rotationOffset = Random.Range(0, 2*Mathf.PI);
         }
     }
 
@@ -92,6 +94,7 @@ public class Unit : MonoBehaviour, ITroop
     public void Kill()
     {
         if (isOnPlanet) currentPlanet.TroopGotKilled(this);
+        Destroy(this.gameObject);
     }
 
     public void MoveToCelestialBody(CelestialBody target)
