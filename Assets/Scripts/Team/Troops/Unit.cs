@@ -1,69 +1,29 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Collider))]
 public class Unit : MonoBehaviour, ITroop
 {
+    public Action<CelestialBody> OnCelestialBodyArrival;
+    public Action<CelestialBody> OnCelestialBodyMoveTo;
+    public Action OnKilled;
+
+
     private Team owner;
     [Min(0)]
     public float maxHealth;
     private float health;
 
     private bool isOnPlanet;
-
-    private bool isOnRotation;
-    private float rotationOffset = 0;
-    private float timeStartRotation = 0;
+    
     private CelestialBody currentPlanet;
     private CelestialBody targetPlanet;
-
-    private float rotationScale = 1f;
-    private float rotationSpeed = 0.5f;
-    private float movementSpeed = 1.5f;
     
     void Start()
     {
         health = this.maxHealth;
-        /*owner = GameManager.HumanPlayer;
-
-        CelestialBody p = FindObjectOfType<CelestialBody>();
-        MoveToCelestialBody(p);*/
-    }
-
-    void Update()
-    {
-        if (isOnPlanet)
-        {
-            if (isOnRotation)
-            {
-                Vector3 scale = currentPlanet.transform.localScale;
-                float time = (Time.time - timeStartRotation) * rotationSpeed;
-                Vector3 position = new Vector3(Mathf.Sin(time + rotationOffset) * scale.x, 0, Mathf.Cos(time + rotationOffset) * scale.z) * rotationScale;
-                position += currentPlanet.transform.position;
-                transform.position = position;
-            } else
-            {
-                Vector3 scale = currentPlanet.transform.localScale;
-                Vector3 targetPosition = new Vector3(Mathf.Sin(rotationOffset) * scale.x, 0, Mathf.Cos(rotationOffset) * scale.z) * rotationScale;
-                targetPosition += currentPlanet.transform.position;
-                Vector3 direction = (targetPosition - transform.position).normalized;
-
-                this.transform.position += direction * movementSpeed * Time.deltaTime;
-                if ( (targetPosition - transform.position).sqrMagnitude < 0.01 )
-                {
-                    isOnRotation = true;
-                    timeStartRotation = Time.time;
-                }
-
-            }
-        }
-        else
-        {
-            Vector3 targetPosition = targetPlanet.transform.position;
-            Vector3 direction = (targetPosition - transform.position).normalized;
-
-            this.transform.position += direction * movementSpeed * Time.deltaTime;
-        }
     }
     
     private void OnTriggerEnter(Collider other)
@@ -74,7 +34,6 @@ public class Unit : MonoBehaviour, ITroop
         if (cb != null && cb.Equals(targetPlanet)) {
             cb.TroopArrival(this);
             SetCurrentCelestialBody(cb);
-            rotationOffset = Random.Range(0, 2*Mathf.PI);
         }
     }
 
@@ -107,21 +66,23 @@ public class Unit : MonoBehaviour, ITroop
 
     public void SetCurrentCelestialBody(CelestialBody planet)
     {
+        OnCelestialBodyArrival?.Invoke(planet);
         this.currentPlanet = planet;
         isOnPlanet = true;
     }
 
     public void Kill()
     {
+        OnKilled?.Invoke();
         if (isOnPlanet) currentPlanet.TroopGotKilled(this);
         Destroy(this.gameObject);
     }
 
     public void MoveToCelestialBody(CelestialBody target)
     {
+        OnCelestialBodyMoveTo?.Invoke(target);
         targetPlanet = target;
         isOnPlanet = false;
-        isOnRotation = false;
     }
 
     public void SetOwner(Team owner)
@@ -132,6 +93,13 @@ public class Unit : MonoBehaviour, ITroop
     public float GetDamage()
     {
         return 10f;
+    }
+
+    public CelestialBody GetTargetCelestialBody()
+    {
+        if (isOnPlanet)
+            return null;
+        return targetPlanet;
     }
     #endregion
 }

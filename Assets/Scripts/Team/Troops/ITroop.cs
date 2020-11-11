@@ -12,5 +12,6 @@ public interface ITroop
     CelestialBody GetCurrentCelestialBody();
 
     void MoveToCelestialBody(CelestialBody target);
+    CelestialBody GetTargetCelestialBody();
 
 }
