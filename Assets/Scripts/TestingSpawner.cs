@@ -4,40 +4,42 @@ using UnityEngine;
 
 public class TestingSpawner : MonoBehaviour
 {
+    public Unit troop;
+
     void Start()
     {
         //StartCoroutine(aa());
-
+        
         CelestialBody p = FindObjectOfType<CelestialBody>();
         for (int i = 0; i < 1000; i++)
         {
-            Unit unit = new Unit(GameManager.HumanPlayer);
-            p.TroopArrival(unit);
-            unit.SetCurrentCelestialBody(p);
+            Unit unit = Instantiate(troop, new Vector3(3, 3, 3), Quaternion.identity);
+            unit.SetOwner(GameManager.HumanPlayer);
+            unit.MoveToCelestialBody(p);
         }
         Team t2 = new Team("pepa", Color.green);
         for (int i = 0; i < 1000; i++)
         {
-            Unit unit = new Unit(t2);
-            p.TroopArrival(unit);
-            unit.SetCurrentCelestialBody(p);
+            Unit unit = Instantiate(troop, new Vector3(10, 10, 10), Quaternion.identity);
+            unit.SetOwner(t2);
+            unit.MoveToCelestialBody(p);
         }
-
+        /*
         Team t3 = new Team("manolo", Color.magenta);
         for (int i = 0; i < 1000; i++)
         {
-            Unit unit = new Unit(t3);
-            p.TroopArrival(unit);
-            unit.SetCurrentCelestialBody(p);
+            Unit unit = Instantiate(troop, new Vector3(10, 10, 10), Quaternion.identity);
+            unit.SetOwner(t3);
+            unit.MoveToCelestialBody(p);
         }
 
         Team t4 = new Team("aaaa", Color.yellow);
         for (int i = 0; i < 1000; i++)
         {
-            Unit unit = new Unit(t4);
-            p.TroopArrival(unit);
-            unit.SetCurrentCelestialBody(p);
-        }
+            Unit unit = Instantiate(troop, new Vector3(10, 10, 10), Quaternion.identity);
+            unit.SetOwner(t4);
+            unit.MoveToCelestialBody(p);
+        }*/
     }
 
     /*private IEnumerator aa()

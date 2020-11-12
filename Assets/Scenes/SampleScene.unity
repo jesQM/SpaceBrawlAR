@@ -240,6 +240,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9dfd7fbc7e42924469a41b64cb03826f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  layerToRaycastTo:
+    serializedVersion: 2
+    m_Bits: 1024
 --- !u!4 &66636263
 Transform:
   m_ObjectHideFlags: 0
@@ -266,6 +269,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9967fba835ed2648b45d8a1efab5b33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  troop: {fileID: 7042925179761926463, guid: 4f243c79a73e5904d9f879b86808bed4, type: 3}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -503,6 +507,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 431943940909342336, guid: e91ae9fff3473f84b8d94113fbac8c0e,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 885087778099211208, guid: e91ae9fff3473f84b8d94113fbac8c0e,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 979660882911107661, guid: e91ae9fff3473f84b8d94113fbac8c0e,
         type: 3}
       propertyPath: m_Materials.Array.size
@@ -522,6 +536,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Planet
+      objectReference: {fileID: 0}
+    - target: {fileID: 6180973638123618419, guid: e91ae9fff3473f84b8d94113fbac8c0e,
+        type: 3}
+      propertyPath: m_Mass
+      value: 10000
+      objectReference: {fileID: 0}
+    - target: {fileID: 6180973638123618419, guid: e91ae9fff3473f84b8d94113fbac8c0e,
+        type: 3}
+      propertyPath: m_AngularDrag
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e91ae9fff3473f84b8d94113fbac8c0e, type: 3}
