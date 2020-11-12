@@ -87,6 +87,7 @@ internal class MovementStrategyOrbitingCelestialBody : AbstractMovementStrategy
     public float timeStartRotation { get; private set; } = 0;
 
     public float rotationScale { get; private set; } = 1f;
+    public Vector2 rotationScaleMinMax { get; private set; } = new Vector2(-0.2f, 0.2f);
     public float rotationSpeed { get; private set; } = 0.5f;
     public float movementSpeed { get; private set; } = 1.5f;
 
@@ -101,6 +102,7 @@ internal class MovementStrategyOrbitingCelestialBody : AbstractMovementStrategy
         this.scale = Cb.transform.localScale;
         this.rotationOffset = UnityEngine.Random.Range(0, 2*Mathf.PI);
         this.timeStartRotation = Time.time;
+        this.rotationScale += UnityEngine.Random.Range(rotationScaleMinMax.x, rotationScaleMinMax.y);
 
         Unit.GetComponent<Collider>().enabled = false;
 
