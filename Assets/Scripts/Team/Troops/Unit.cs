@@ -37,6 +37,24 @@ public class Unit : MonoBehaviour, ITroop
         }
     }
 
+
+    private void UpdateColour()
+    {
+        // Update mesh colour
+        Renderer r = GetComponentInChildren<Renderer>();
+        r.material.color = owner.Colour;
+
+        // Update trail colour
+        TrailRenderer trail = GetComponentInChildren<TrailRenderer>();
+        
+        Gradient gradient = new Gradient();
+        gradient.SetKeys(
+            new GradientColorKey[] { new GradientColorKey(owner.Colour, 0f)},
+            new GradientAlphaKey[] { new GradientAlphaKey(1f, 0.0f), new GradientAlphaKey(0.3f, 1.0f) }
+        );
+        trail.colorGradient = gradient;
+    }
+
     #region ITroop  
 
     public float GetHealth()
@@ -88,8 +106,7 @@ public class Unit : MonoBehaviour, ITroop
     public void SetOwner(Team owner)
     {
         this.owner = owner;
-        Renderer r = GetComponentInChildren<Renderer>();
-        r.material.color = owner.Colour;
+        UpdateColour();
     }
 
     public float GetDamage()
