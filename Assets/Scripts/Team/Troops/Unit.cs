@@ -88,6 +88,8 @@ public class Unit : MonoBehaviour, ITroop
     public void SetOwner(Team owner)
     {
         this.owner = owner;
+        Renderer r = GetComponentInChildren<Renderer>();
+        r.material.color = owner.Colour;
     }
 
     public float GetDamage()
