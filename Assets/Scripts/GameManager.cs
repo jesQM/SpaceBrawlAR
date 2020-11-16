@@ -5,13 +5,32 @@ using UnityEngine;
 
 public class GameManager
 {
-    public static Team HumanPlayer = new Team("player", Color.blue);
-    public static List<Team> AllTeams = new List<Team>();
+    private static GameManager _instance;
+    public static GameManager Instance {
+        get {
+            if (_instance == null)
+            {
+                _instance = new GameManager();
+            }
+            return _instance;
+        }
+        private set {
+            throw new NotSupportedException();
+        }
+    }
 
-    public static List<CelestialBody> CelestialBodiesSelectedByHumanPlayer = new List<CelestialBody>();
+    public Team HumanPlayer = new Team("player", Color.blue);
+    public List<Team> AllTeams = new List<Team>();
+
+    public List<CelestialBody> CelestialBodiesSelectedByHumanPlayer = new List<CelestialBody>();
 
 
-    public static void SendTroopsToTarget(CelestialBody target)
+    private GameManager()
+    {
+        AllTeams.Add(HumanPlayer);
+    }
+
+    public void SendTroopsToTarget(CelestialBody target)
     {
         foreach (CelestialBody sender in CelestialBodiesSelectedByHumanPlayer)
         {
@@ -20,7 +39,7 @@ public class GameManager
         DeselectAll();
     }
 
-    public static void DeselectAll()
+    public void DeselectAll()
     {
         // Create a new list to loop through it without messing up with indexes
         List<CelestialBody> copy = new List<CelestialBody>(CelestialBodiesSelectedByHumanPlayer);
