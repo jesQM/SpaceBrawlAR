@@ -208,6 +208,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Planet (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 7657902954273633950, guid: e91ae9fff3473f84b8d94113fbac8c0e,
+        type: 3}
+      propertyPath: TroopWeight
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e91ae9fff3473f84b8d94113fbac8c0e, type: 3}
 --- !u!1 &66636261
@@ -546,6 +551,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AngularDrag
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7657902954273633950, guid: e91ae9fff3473f84b8d94113fbac8c0e,
+        type: 3}
+      propertyPath: TroopWeight
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e91ae9fff3473f84b8d94113fbac8c0e, type: 3}

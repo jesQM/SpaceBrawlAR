@@ -51,12 +51,12 @@ public class CelestialBody : MonoBehaviour, IInteractable
 
         // Planet got selected => add to selected list
         OnSelected += () => {
-            GameManager.CelestialBodiesSelectedByHumanPlayer.Add(this);
+            GameManager.Instance.CelestialBodiesSelectedByHumanPlayer.Add(this);
         };
 
         // Planet got deselected => remove from selected list
         OnDeselected += () => {
-            GameManager.CelestialBodiesSelectedByHumanPlayer.Remove(this);
+            GameManager.Instance.CelestialBodiesSelectedByHumanPlayer.Remove(this);
         };
 
         // Update teams count
@@ -125,7 +125,7 @@ public class CelestialBody : MonoBehaviour, IInteractable
 
     public void GetTargeted()
     {
-        GameManager.SendTroopsToTarget(this);
+        GameManager.Instance.SendTroopsToTarget(this);
     }
 
     #endregion

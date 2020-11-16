@@ -93,6 +93,8 @@ public class Unit : MonoBehaviour, ITroop
     {
         OnKilled?.Invoke();
         if (isOnPlanet) currentPlanet.TroopGotKilled(this);
+
+        if (this.owner != null) this.owner.CurrentTroopCount--;
         Destroy(this.gameObject);
     }
 
@@ -105,7 +107,10 @@ public class Unit : MonoBehaviour, ITroop
 
     public void SetOwner(Team owner)
     {
+        if (this.owner != null) this.owner.CurrentTroopCount--;
         this.owner = owner;
+        if (this.owner != null) this.owner.CurrentTroopCount++;
+
         UpdateColour();
     }
 

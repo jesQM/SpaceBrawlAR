@@ -50,7 +50,7 @@ internal class InputStrategyMouse : IInputStrategy
             }
             else
             {
-                GameManager.DeselectAll();
+                GameManager.Instance.DeselectAll();
             }
             return;
         }
@@ -74,7 +74,7 @@ internal class InputStrategyMouse : IInputStrategy
             }
             else
             {
-                GameManager.DeselectAll();
+                GameManager.Instance.DeselectAll();
             }
         }
     }
@@ -123,7 +123,7 @@ internal class InputStrategyTouch : IInputStrategy
                     IInteractable interactable = hit.collider.gameObject.GetComponent<IInteractable>();
                     interactable?.OnTouchEnd();
                 }
-                GameManager.DeselectAll();
+                GameManager.Instance.DeselectAll();
             }
         }
     }
