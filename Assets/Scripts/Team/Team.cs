@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Team
 {
+    public int MaxTroopCount;
+    public int CurrentTroopCount;
+
     public string Name { get; private set; }
     public Color Colour { get; private set; }
 

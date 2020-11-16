@@ -22,9 +22,11 @@ public class CBTroopSpawner : MonoBehaviour
 
         planet.OnPlanetConquest += (team) => {
             teamOwner = team;
+            teamOwner.MaxTroopCount += TroopWeight;
             StartSpawn();
         };
         planet.OnPlanetUnconquest += () => {
+            if (teamOwner != null) teamOwner.MaxTroopCount -= TroopWeight;
             teamOwner = null;
             EndSpawn();
         };
@@ -54,8 +56,11 @@ public class CBTroopSpawner : MonoBehaviour
 
     private void SpawnTroop()
     {
-        Unit unit = Instantiate(UnitToSpawn, planet.transform.position, Quaternion.identity);
-        unit.SetOwner(teamOwner);
-        unit.MoveToCelestialBody(planet);
+        if (teamOwner.CurrentTroopCount < teamOwner.MaxTroopCount)
+        {
+            Unit unit = Instantiate(UnitToSpawn, planet.transform.position, Quaternion.identity);
+            unit.SetOwner(teamOwner);
+            unit.MoveToCelestialBody(planet);
+        }
     }
 }
