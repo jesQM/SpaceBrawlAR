@@ -96,6 +96,7 @@ GameObject:
   - component: {fileID: 6094848891877182220}
   - component: {fileID: 196900191549813965}
   - component: {fileID: 1688738924023350866}
+  - component: {fileID: 7657902954273633950}
   m_Layer: 10
   m_Name: Planet
   m_TagString: Untagged
@@ -219,3 +220,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a794ea074f572df40841fd40768def65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7657902954273633950
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5725422929276824182}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 689bae79bf06cf34bafdd3f510a2b492, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TroopWeight: 0
+  SpawnInterval: 2
+  UnitToSpawn: {fileID: 7042925179761926463, guid: 4f243c79a73e5904d9f879b86808bed4,
+    type: 3}
