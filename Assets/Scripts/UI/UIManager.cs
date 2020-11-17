@@ -43,6 +43,7 @@ public class UIManager : MonoBehaviour
 
     public void PauseBtnClick()
     {
+        GameSpeed.IsPaused = true;
         TimeScaleBeforePause = Time.timeScale;
         Time.timeScale = 0;
         ShowPauseMenu();
@@ -55,6 +56,7 @@ public class UIManager : MonoBehaviour
 
     public void Resume()
     {
+        GameSpeed.IsPaused = false;
         Time.timeScale = TimeScaleBeforePause;
         HidePauseMenu();
     }
