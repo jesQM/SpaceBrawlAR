@@ -14,7 +14,7 @@ public class InputManager : MonoBehaviour
 
     void Update()
     {
-        inputStrategy.CheckInput();
+        if (!GameSpeed.IsPaused) inputStrategy.CheckInput();
     }
 }
 
