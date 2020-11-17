@@ -11,13 +11,13 @@ public class TestingSpawner : MonoBehaviour
         //StartCoroutine(aa());
         
         CelestialBody p = FindObjectOfType<CelestialBody>();
-        for (int i = 0; i < 1000; i++)
+        for (int i = 0; i < 1; i++)
         {
             Unit unit = Instantiate(troop, new Vector3(3, 3, 3), Quaternion.identity);
             unit.SetOwner(GameManager.Instance.HumanPlayer);
             unit.MoveToCelestialBody(p);
         }
-        Team t2 = new Team("pepa", Color.green);
+        /*Team t2 = new Team("pepa", Color.green);
         for (int i = 0; i < 1000; i++)
         {
             Unit unit = Instantiate(troop, new Vector3(10, 10, 10), Quaternion.identity);
