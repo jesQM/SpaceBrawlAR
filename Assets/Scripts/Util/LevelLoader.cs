@@ -6,15 +6,19 @@ using UnityEngine.SceneManagement;
 
 public class LevelLoader : MonoBehaviour
 {
-    private static float TransitionTime;
+    public Animator transition;
+    public float transitionTime;
 
     public void LoadLevel(string sceneName) {
-        StartCoroutine(LoadScene(sceneName, TransitionTime));
+        StartCoroutine(LoadScene(sceneName, transitionTime));
     }
 
     IEnumerator LoadScene(string name, float transitionTime)
     {
+        transition.SetTrigger("Start");
+
+        yield return new WaitForSeconds(transitionTime);
+
         SceneManager.LoadScene(name);
-        yield return null;
     }
 }
