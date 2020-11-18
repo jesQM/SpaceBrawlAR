@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Skybox))]
 public class SkyboxRotator : MonoBehaviour
 {
     public float rotationSpeed;
