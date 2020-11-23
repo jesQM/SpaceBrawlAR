@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class GameManager
 {
+    // Sigleton
     private static GameManager _instance;
     public static GameManager Instance {
         get {
@@ -21,7 +22,6 @@ public class GameManager
 
     public Team HumanPlayer = new Team("player", Color.blue);
     public List<Team> AllTeams = new List<Team>();
-
     public List<CelestialBody> CelestialBodiesSelectedByHumanPlayer = new List<CelestialBody>();
 
 

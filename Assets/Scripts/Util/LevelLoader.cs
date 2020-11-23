@@ -9,7 +9,18 @@ public class LevelLoader : MonoBehaviour
     public Animator transition;
     public float transitionTime;
 
-    public void LoadLevel(string sceneName) {
+
+    public void LoadMainMenu()
+    {
+        LoadLevel("MainMenu");
+    }
+
+    public void ReloadLevel() {
+        LoadLevel(SceneManager.GetActiveScene().name);
+    }
+
+    public void LoadLevel(string sceneName)
+    {
         StartCoroutine(LoadScene(sceneName, transitionTime));
     }
 
