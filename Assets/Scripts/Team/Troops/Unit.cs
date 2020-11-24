@@ -10,6 +10,8 @@ public class Unit : MonoBehaviour, ITroop
     public Action<CelestialBody> OnCelestialBodyMoveTo;
     public Action OnKilled;
 
+    public AudioClip deathSound;
+
 
     private Team owner;
     [Min(0)]
@@ -24,8 +26,15 @@ public class Unit : MonoBehaviour, ITroop
     void Start()
     {
         health = this.maxHealth;
+
+        if (deathSound != null) OnKilled += () => { FindObjectOfType<AudioManager>().PlaySound(deathSound); };
     }
-    
+
+    void OnDestroy()
+    {
+        if (this.owner != null) this.owner.CurrentTroopCount--;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (isOnPlanet) return;
@@ -94,7 +103,6 @@ public class Unit : MonoBehaviour, ITroop
         OnKilled?.Invoke();
         if (isOnPlanet) currentPlanet.TroopGotKilled(this);
 
-        if (this.owner != null) this.owner.CurrentTroopCount--;
         Destroy(this.gameObject);
     }
 

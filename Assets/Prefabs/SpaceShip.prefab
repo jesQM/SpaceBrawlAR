@@ -232,6 +232,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90ed392bb90c04542a6071e5672a5f6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  deathSound: {fileID: 8300000, guid: c309c0b78c9b5e94e8b055e5a99eebd7, type: 3}
   maxHealth: 100
 --- !u!114 &3850802991076763464
 MonoBehaviour:

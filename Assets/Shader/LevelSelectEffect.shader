@@ -47,8 +47,8 @@
             {
 				fixed4 offset = tex2D(_Noise, i.uv);
 
-				float x = i.uv.x + offset.r * _Amount;
-				float y = i.uv.y + offset.r * _Amount;
+				float x = i.uv.x + (offset.r - 0.5) * _Amount;
+				float y = i.uv.y + (offset.r - 0.5) * _Amount;
                 fixed4 col = tex2D(_MainTex, float2(x,y) );
                 return col;
             }

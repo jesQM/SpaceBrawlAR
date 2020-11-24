@@ -28,4 +28,10 @@ public class AudioManager : MonoBehaviour
         source.clip = BtnBack;
         source.Play();
     }
+
+    public void PlaySound(AudioClip sound)
+    {
+        source.clip = sound;
+        source.Play();
+    }
 }
