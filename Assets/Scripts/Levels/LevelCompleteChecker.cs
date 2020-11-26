@@ -11,7 +11,7 @@ public class LevelCompleteChecker : MonoBehaviour
     void Update()
     {
         Team winner = null;
-        foreach(Team t in GameManager.Instance.AllTeams)
+        foreach(Team t in GameManager.Instance.AllTeamsPlaying)
         {
             if (t.CurrentTroopCount > 0)
             {

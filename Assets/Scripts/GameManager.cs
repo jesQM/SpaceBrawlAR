@@ -20,14 +20,20 @@ public class GameManager
         }
     }
 
-    public Team HumanPlayer = new Team("player", Color.blue);
-    public List<Team> AllTeams = new List<Team>();
+
+    public List<Team> AllPossibleTeams = new List<Team>();
+
+    public Team HumanPlayer = new Team("Player", Color.blue);
+    public List<Team> AllTeamsPlaying = new List<Team>();
     public List<CelestialBody> CelestialBodiesSelectedByHumanPlayer = new List<CelestialBody>();
 
 
     private GameManager()
     {
-        AllTeams.Add(HumanPlayer);
+        AllPossibleTeams.Add(HumanPlayer);
+        AllPossibleTeams.Add(new Team("Team1", new Color(1, 1, 0) ));
+        AllPossibleTeams.Add(new Team("Team2", new Color(1, 0, 1) ));
+        AllPossibleTeams.Add(new Team("Team3", new Color(0, 1, 1) ));
     }
 
     public void SendTroopsToTarget(CelestialBody target)

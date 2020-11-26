@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 646023675046758645}
   - component: {fileID: 646023675046758644}
-  - component: {fileID: 646023675046758650}
   - component: {fileID: 646023675046758651}
   - component: {fileID: 646023675046758649}
   - component: {fileID: 646023675046758648}
@@ -52,19 +51,6 @@ MonoBehaviour:
   layerToRaycastTo:
     serializedVersion: 2
     m_Bits: 1024
---- !u!114 &646023675046758650
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 646023675046758647}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b9967fba835ed2648b45d8a1efab5b33, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  troop: {fileID: 7042925179761926463, guid: 4f243c79a73e5904d9f879b86808bed4, type: 3}
 --- !u!114 &646023675046758651
 MonoBehaviour:
   m_ObjectHideFlags: 0
