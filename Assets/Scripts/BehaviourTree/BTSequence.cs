@@ -9,6 +9,9 @@ public class BTSequence : BTCompositeNode
     public BTSequence(BehaviourTree t, List<BTNode> children) : base(t, children)
     {
     }
+    public BTSequence(BehaviourTree t, BTNode[] children) : base(t, children)
+    {
+    }
 
     public override Result Execute()
     {

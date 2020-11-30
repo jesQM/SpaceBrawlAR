@@ -9,6 +9,9 @@ public class BTSelector : BTCompositeNode
     public BTSelector(BehaviourTree t, List<BTNode> children) : base(t, children)
     {
     }
+    public BTSelector(BehaviourTree t, BTNode[] children) : base(t, children)
+    {
+    }
 
     public override Result Execute()
     {

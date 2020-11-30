@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class LevelStarter : MonoBehaviour
 {
@@ -21,6 +22,15 @@ public class LevelStarter : MonoBehaviour
         });
 
         GameManager.Instance.AllTeamsPlaying.AddRange(participatingTeams.Distinct());
+        AddBehaviourTrees();
+    }
+
+    private void AddBehaviourTrees()
+    {
+        GameManager.Instance.AllTeamsPlaying.Where( t => !t.Equals(GameManager.Instance.HumanPlayer) ).ToList().ForEach(t => {
+            SpaceBrawlBehaviourTree tree = this.gameObject.AddComponent<SpaceBrawlBehaviourTree>();
+            tree.team = t;
+            });
     }
 
     private void SpawnTroop(Team t, CelestialBody planet)

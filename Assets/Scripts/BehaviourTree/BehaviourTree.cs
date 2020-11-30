@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Reflection;
 
-public class BehaviourTree : MonoBehaviour
+public abstract class BehaviourTree : MonoBehaviour
 {
     public BTNode Root;
     public Dictionary< string, object > Blackboard;
@@ -14,18 +14,13 @@ public class BehaviourTree : MonoBehaviour
     void Start()
     {
         Blackboard = new Dictionary<string, object>();
+        BlackboardConfiguration();
+        NodesConfiguration();
         behaviour = StartCoroutine(RunBehaviour());
     }
 
-    public T CastObject<T>(object input)
-    {
-        return (T)input;
-    }
-
-    public T ConvertObject<T>(object input)
-    {
-        return (T)Convert.ChangeType(input, typeof(T));
-    }
+    protected abstract void BlackboardConfiguration();
+    protected abstract void NodesConfiguration();
 
     IEnumerator RunBehaviour()
     {
@@ -35,6 +30,5 @@ public class BehaviourTree : MonoBehaviour
             res = Root.Execute();
             yield return null;
         }
-
     }
 }
