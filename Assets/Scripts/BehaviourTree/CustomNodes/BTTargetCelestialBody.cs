@@ -26,7 +26,6 @@ public class BTAttackCelestialBody : BTNode
     public override Result Execute()
     {
         var s = celestialBodies.Where(b => !team.Equals(b.Owner));
-        Debug.Log(s.Count());
         if (s.Count() == 0) return Result.Failure; // Nowhere to attack
 
         int startIdx = Random.Range(0, s.Count()-1);
@@ -40,8 +39,7 @@ public class BTAttackCelestialBody : BTNode
             int enemyCount = target.Troops.ToList()
                 .Where(pair => !pair.Key.Equals(team))
                 .Aggregate(0, (int add, KeyValuePair<Team, List<ITroop>> pair) => pair.Value.Count + add);
-
-            //Debug.Log(enemyCount + " - " + team.CurrentTroopCount / 2f);
+            
             if (enemyCount < team.CurrentTroopCount/2f) break;
 
             currentIdx++;
