@@ -10,7 +10,7 @@ public class CBTroopSpawner : MonoBehaviour
     public int TroopWeight; /// Amount of troops this planet provides
     public float SpawnInterval; /// Every how often a troop is spawned
     public Unit UnitToSpawn;
-
+    public GameObject parent;
 
     private CelestialBody planet;
     private Coroutine spawningCoroutine;
@@ -58,7 +58,7 @@ public class CBTroopSpawner : MonoBehaviour
     {
         if (teamOwner.CurrentTroopCount < teamOwner.MaxTroopCount)
         {
-            Unit unit = Instantiate(UnitToSpawn, planet.transform.position, Quaternion.identity);
+            Unit unit = Instantiate(UnitToSpawn, planet.transform.position, Quaternion.identity, parent.transform);
             unit.SetOwner(teamOwner);
             unit.MoveToCelestialBody(planet);
         }

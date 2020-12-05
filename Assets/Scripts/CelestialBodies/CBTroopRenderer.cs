@@ -3,6 +3,7 @@ using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 [RequireComponent(typeof(CelestialBody))]
 public class CBTroopRenderer : MonoBehaviour
@@ -48,6 +49,8 @@ public class CBTroopRenderer : MonoBehaviour
         troopIndicator.transform.position = transform.position;
         troopIndicator.transform.localScale = transform.localScale * 1.5f;
         troopIndicator.transform.parent = transform;
+
+        troopIndicator.AddComponent<Canvas>();
     }
 }
 
@@ -85,7 +88,7 @@ internal class PlanetTroopsRendererStrategyPeace : AbstractPlanetTroopsRendererS
 {
     private string holderName = "NumberOfTroops_Peace";
     private GameObject Child;
-    private TextMesh TextInChild;
+    private TextMeshProUGUI TextInChild;
     private Team TeamInPlanet;
 
     public PlanetTroopsRendererStrategyPeace(CelestialBody planet, GameObject parent, Camera cameraToLookAt) : base(planet, parent, cameraToLookAt)
@@ -101,15 +104,16 @@ internal class PlanetTroopsRendererStrategyPeace : AbstractPlanetTroopsRendererS
         if (Child != null) return;
 
         Child = new GameObject(holderName);
-        Child.transform.position = parent.transform.position;
+        Child.transform.position = parent.transform.position + Vector3.up * 0.2f;
         Child.transform.localScale = parent.transform.localScale;
         Child.transform.parent = parent.transform;
 
         // Add sprite and set dimensions
-        TextInChild = Child.AddComponent<TextMesh>();
-        TextInChild.anchor = TextAnchor.MiddleCenter;
-        TextInChild.alignment = TextAlignment.Center;
-        TextInChild.characterSize = 0.25f;
+        TextInChild = Child.AddComponent<TextMeshProUGUI>();
+        TextInChild.alignment = TextAlignmentOptions.Center;
+        TextInChild.enableAutoSizing = true;
+        TextInChild.fontSizeMin = 0.1f;
+        TextInChild.fontSizeMax = 0.20f;
         TextInChild.text = "";
     }
 
@@ -148,10 +152,15 @@ internal class PlanetTroopsRendererStrategyPeace : AbstractPlanetTroopsRendererS
     public override void Render()
     {
         if (TeamInPlanet == null) return;
-
+        
         planet.Troops.TryGetValue(TeamInPlanet, out List<ITroop> troops);
         TextInChild.text = troops.Count.ToString();
-        Child.transform.LookAt(cameraToLookAt.transform.position * -1);
+
+        // transform.LookAt to opposite direction: https://gist.github.com/unitycoder/0956a002275f373fcd8246e149f3b401
+        Child.transform.rotation = Quaternion.LookRotation(Child.transform.position - cameraToLookAt.transform.position);
+        Child.transform.LookAt(2 * Child.transform.position - cameraToLookAt.transform.position);
+
+        //Child.transform.LookAt(Child.transform.position - cameraToLookAt.transform.position);
     }
 }
 
@@ -161,7 +170,7 @@ internal class PlanetTroopsRendererStrategyWar : AbstractPlanetTroopsRendererStr
     private GameObject[] numberOfTroops;
     private GameObject[] pieChartsOfTroops;
     private CoronaCircular[] pieChartsCircles;
-    private TextMesh[] text;
+    private TextMeshProUGUI[] text;
 
     private float radiusOfInfoCircle = .5f;
 
@@ -198,7 +207,7 @@ internal class PlanetTroopsRendererStrategyWar : AbstractPlanetTroopsRendererStr
         int numberOfTeamsInPlanet = planet.CurrentTeamsInPlanet.Count;
 
         numberOfTroops = new GameObject[numberOfTeamsInPlanet];
-        text = new TextMesh[numberOfTeamsInPlanet];
+        text = new TextMeshProUGUI[numberOfTeamsInPlanet];
         pieChartsOfTroops = new GameObject[numberOfTeamsInPlanet];
         pieChartsCircles = new CoronaCircular[numberOfTeamsInPlanet];
 
@@ -213,10 +222,12 @@ internal class PlanetTroopsRendererStrategyWar : AbstractPlanetTroopsRendererStr
                 currentTroopText.transform.localScale = parent.transform.localScale;
                 currentTroopText.transform.parent = parent.transform;
 
-                TextMesh currentText = currentTroopText.AddComponent<TextMesh>();
-                currentText.anchor = TextAnchor.MiddleCenter;
-                currentText.alignment = TextAlignment.Center;
-                currentText.characterSize = 0.25f;
+                TextMeshProUGUI currentText = currentTroopText.AddComponent<TextMeshProUGUI>();
+                currentText.alignment = TextAlignmentOptions.Center;
+                currentText.enableAutoSizing = true;
+                currentText.fontSizeMin = 0.1f;
+                currentText.fontSizeMax = 0.20f;
+                currentText.text = "";
                 currentText.color = pair.Key.Colour;
 
                 numberOfTroops[i] = currentTroopText;
@@ -305,6 +316,12 @@ internal class PlanetTroopsRendererStrategyWar : AbstractPlanetTroopsRendererStr
             text[i].text = pair.Value.Count.ToString();
             i++;
         }
-        parent.transform.LookAt(cameraToLookAt.transform.position * -1);
+
+
+        //parent.transform.LookAt(parent.transform.position - cameraToLookAt.transform.position);
+
+        // transform.LookAt to opposite direction: https://gist.github.com/unitycoder/0956a002275f373fcd8246e149f3b401
+        parent.transform.rotation = Quaternion.LookRotation(parent.transform.position - cameraToLookAt.transform.position);
+        parent.transform.LookAt(2 * parent.transform.position - cameraToLookAt.transform.position);
     }
 }

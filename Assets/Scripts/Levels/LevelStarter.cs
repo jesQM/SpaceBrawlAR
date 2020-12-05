@@ -7,6 +7,7 @@ using System;
 public class LevelStarter : MonoBehaviour
 {
     public Unit UnitPrefab;
+    public GameObject parentOfInitialTroops;
     
     protected List<PlanetStartState> planets = new List<PlanetStartState>();
 
@@ -35,7 +36,7 @@ public class LevelStarter : MonoBehaviour
 
     private void SpawnTroop(Team t, CelestialBody planet)
     {
-        Unit unit = Instantiate(UnitPrefab, planet.transform.position, Quaternion.identity);
+        Unit unit = Instantiate(UnitPrefab, planet.transform.position, Quaternion.identity, parentOfInitialTroops.transform);
         unit.SetOwner(t);
         unit.MoveToCelestialBody(planet);
     }
