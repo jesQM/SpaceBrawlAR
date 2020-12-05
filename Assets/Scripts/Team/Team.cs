@@ -8,7 +8,7 @@ public class Team
     public int CurrentTroopCount;
 
     public string Name { get; private set; }
-    public Color Colour { get; private set; }
+    public Color Colour { get; set; }
 
     public Team(string name, Color colour)
     {
