@@ -15,6 +15,13 @@ public class LevelStarter : MonoBehaviour
     {
         List<Team> participatingTeams = new List<Team>();
 
+        // Reset teams
+        planets.Select(p => p.Team).ToList().ForEach( team => {
+            team.CurrentTroopCount = 0;
+            team.MaxTroopCount = 0;
+        });
+
+        // Starting troops
         planets.ForEach( p => {
             for (int i = 0; i < p.TroopCount; i++) {
                 SpawnTroop(p.Team, p.Planet);
@@ -23,7 +30,7 @@ public class LevelStarter : MonoBehaviour
         });
 
         GameManager.Instance.AllTeamsPlaying.AddRange(participatingTeams.Distinct());
-        AddBehaviourTrees();
+        AddBehaviourTrees(); // Add AI
     }
 
     private void AddBehaviourTrees()
