@@ -13,11 +13,14 @@ public class ConfigurationMenu : MonoBehaviour
     public Image[] ColourInputsPreview;
 
 
-    public Color[] Colours;
+    private Color[] NewColours;
+    private Color[] OldColours;
 
     void Start()
     {
-        ResetToDefault();
+        InitializeColours();
+        UpdateText();
+        UpdateImages();
     }
 
     void Update()
@@ -26,11 +29,13 @@ public class ConfigurationMenu : MonoBehaviour
         if (badInputs == 0) UpdateImages();
     }
 
+
+
     public void UpdateText()
     {
-        for (int i = 0; i < Colours.Length; i++)
+        for (int i = 0; i < NewColours.Length; i++)
         {
-            ColourInputs[i].text = ToStringFromColour(Colours[i]);
+            ColourInputs[i].text = ToStringFromColour(NewColours[i]);
         }
     }
 
@@ -43,7 +48,7 @@ public class ConfigurationMenu : MonoBehaviour
         teams.Where( t => t.Name.Equals("Team2") ).First().Colour = new Color(1, 0, 1);
         teams.Where( t => t.Name.Equals("Team3") ).First().Colour = new Color(0, 1, 1);
 
-        Colours = teams.Select(t => t.Colour).ToArray();
+        NewColours = teams.Select(t => t.Colour).ToArray();
         UpdateText();
     }
 
@@ -53,18 +58,34 @@ public class ConfigurationMenu : MonoBehaviour
 
         for (int i = 0; i < teams.Count; i++)
         {
-            teams[i].Colour = Colours[i];
+            teams[i].Colour = NewColours[i];
         }
+
+        OldColours = NewColours.Clone() as Color[];
+    }
+
+    public void CancelChanges()
+    {
+        NewColours = OldColours.Clone() as Color[];
+        UpdateText();
+        UpdateImages();
     }
 
 
 
+    private void InitializeColours()
+    {
+        var teams = GameManager.Instance.AllPossibleTeams;
+        OldColours = teams.Select(t => t.Colour).ToArray();
+        NewColours = OldColours.Clone() as Color[];
+    }
+
     private void UpdateImages()
     {
-        Colours = ColourInputs.Select(i => ToColor(i.text)).ToArray();
+        NewColours = ColourInputs.Select(i => ToColor(i.text)).ToArray();
         for (int i = 0; i < ColourInputsPreview.Length; i++)
         {
-            ColourInputsPreview[i].color = Colours.ElementAt(i);
+            ColourInputsPreview[i].color = NewColours.ElementAt(i);
         }
     }
 

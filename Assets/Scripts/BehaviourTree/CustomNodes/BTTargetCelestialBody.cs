@@ -13,7 +13,7 @@ public class BTAttackCelestialBody : BTNode
         object temp = null;
         try {
             temp = t.Blackboard["CelestialBodies"];
-        } catch (KeyNotFoundException e) {
+        } catch (KeyNotFoundException) {
             temp = UnityEngine.GameObject.FindObjectsOfType<CelestialBody>().ToList();
             t.Blackboard.Add("CelestialBodies", temp);
         }
@@ -64,7 +64,7 @@ public class BTDefendCelestialBody : BTNode
         {
             temp = t.Blackboard["CelestialBodies"];
         }
-        catch (KeyNotFoundException e)
+        catch (KeyNotFoundException)
         {
             temp = UnityEngine.GameObject.FindObjectsOfType<CelestialBody>().ToList();
             t.Blackboard.Add("CelestialBodies", temp);
