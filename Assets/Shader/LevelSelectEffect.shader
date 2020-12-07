@@ -4,7 +4,7 @@
     {
         _MainTex ("Texture", 2D) = "white" {}
         _Noise ("Noise", 2D) = "white" {}
-        _Amount ("Noise Amount", Range(0,1)) = 0
+        _Amount ("Noise Amount", float) = 0
     }
     SubShader
     {
