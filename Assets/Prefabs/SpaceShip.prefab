@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 1475611265266062912}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.07, y: 0.07, z: 0.07}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7042925179761926432}
   m_RootOrder: 0
@@ -198,6 +198,7 @@ GameObject:
   - component: {fileID: 7042925179761926463}
   - component: {fileID: 3850802991076763464}
   - component: {fileID: 7042925179761926433}
+  - component: {fileID: 3069659853229821429}
   m_Layer: 0
   m_Name: SpaceShip
   m_TagString: Untagged
@@ -214,7 +215,7 @@ Transform:
   m_GameObject: {fileID: 7042925179761926462}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.07, y: 0.07, z: 0.07}
   m_Children:
   - {fileID: 567577262581501433}
   m_Father: {fileID: 0}
@@ -259,3 +260,17 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3069659853229821429
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7042925179761926462}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51113074207f35b4eb698b8193b63f47, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  explosionEffect: {fileID: 7111398735704218026, guid: b540c258f5829c8419316c71f2b34247,
+    type: 3}

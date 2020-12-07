@@ -1424,8 +1424,6 @@ MonoBehaviour:
   - {fileID: 1877947637}
   - {fileID: 1534013621}
   - {fileID: 1288226029}
-  NewColours: []
-  OldColours: []
 --- !u!1 &509547876
 GameObject:
   m_ObjectHideFlags: 0
