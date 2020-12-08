@@ -13,6 +13,7 @@ public class LevelStarter : MonoBehaviour
 
     protected void Start()
     {
+        GameManager.Instance.AllTeamsPlaying.Clear();
         List<Team> participatingTeams = new List<Team>();
 
         // Reset teams
@@ -28,7 +29,7 @@ public class LevelStarter : MonoBehaviour
                 participatingTeams.Add(p.Team);
             }
         });
-
+        
         GameManager.Instance.AllTeamsPlaying.AddRange(participatingTeams.Distinct());
         AddBehaviourTrees(); // Add AI
     }
