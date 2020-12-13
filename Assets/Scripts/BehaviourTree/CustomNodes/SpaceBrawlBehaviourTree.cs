@@ -14,12 +14,12 @@ public class SpaceBrawlBehaviourTree : BehaviourTree
 
     protected override void NodesConfiguration()
     {
-        BTNode root = new BTSelector(this, new BTNode[]{
-
-                new BTSequence(this, new BTNode[] { new BTDefendCelestialBody(this), new BTSendTroopsToCelestialBody(this) }), // Defend Sequence
-                new BTSequence(this, new BTNode[] { new BTAttackCelestialBody(this), new BTSendTroopsToCelestialBody(this) }) // Defend Sequence
-
-            }); // End selector
+        BTNode root = new BTWaitDecorator(this, 
+                new BTSelector(this, new BTNode[]{
+                    new BTSequence(this, new BTNode[] { new BTDefendCelestialBody(this), new BTSendTroopsToCelestialBody(this) }), // Defend Sequence
+                    new BTSequence(this, new BTNode[] { new BTAttackCelestialBody(this), new BTSendTroopsToCelestialBody(this) }) // Defend Sequence
+                }) // End selector
+            , 2f); // End wait
         this.Root = root;
     }
 }
